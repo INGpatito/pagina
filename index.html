@@ -1,0 +1,1602 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RGC Code - Tu espacio para el conocimiento</title>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap"
+    rel="stylesheet">
+
+  <style>
+    :root {
+      /* Premium Color Palette */
+      --color-primary: #6366f1;
+      --color-primary-light: #818cf8;
+      --color-primary-dark: #4f46e5;
+      --color-secondary: #ec4899;
+      --color-accent: #06b6d4;
+      --color-success: #10b981;
+      --color-warning: #f59e0b;
+
+      /* Gradient Colors */
+      --gradient-primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      --gradient-secondary: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+      --gradient-accent: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+      --gradient-hero: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+      --gradient-dark: linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%);
+
+      /* Background Colors */
+      --bg-dark: #0a0a0f;
+      --bg-card: rgba(255, 255, 255, 0.03);
+      --bg-card-hover: rgba(255, 255, 255, 0.08);
+      --bg-glass: rgba(255, 255, 255, 0.05);
+
+      /* Text Colors */
+      --text-primary: #ffffff;
+      --text-secondary: rgba(255, 255, 255, 0.7);
+      --text-muted: rgba(255, 255, 255, 0.5);
+
+      /* Border Colors */
+      --border-subtle: rgba(255, 255, 255, 0.1);
+      --border-glow: rgba(99, 102, 241, 0.5);
+
+      /* Typography */
+      --font-family: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
+
+      /* Spacing */
+      --space-xs: 4px;
+      --space-sm: 8px;
+      --space-md: 16px;
+      --space-lg: 24px;
+      --space-xl: 32px;
+      --space-2xl: 48px;
+      --space-3xl: 64px;
+      --space-4xl: 96px;
+
+      /* Border Radius */
+      --radius-sm: 8px;
+      --radius-md: 12px;
+      --radius-lg: 16px;
+      --radius-xl: 24px;
+      --radius-full: 9999px;
+
+      /* Shadows */
+      --shadow-glow: 0 0 40px rgba(99, 102, 241, 0.3);
+      --shadow-card: 0 8px 32px rgba(0, 0, 0, 0.3);
+      --shadow-lg: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+
+      /* Transitions */
+      --transition-fast: 0.15s ease;
+      --transition-normal: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      --transition-slow: 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: var(--font-family);
+      background: var(--bg-dark);
+      color: var(--text-primary);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* Animated Background */
+    .animated-bg {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      background: var(--bg-dark);
+      overflow: hidden;
+    }
+
+    .animated-bg::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle at 20% 80%, rgba(99, 102, 241, 0.15) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(236, 72, 153, 0.15) 0%, transparent 50%),
+        radial-gradient(circle at 40% 40%, rgba(6, 182, 212, 0.1) 0%, transparent 40%);
+      animation: bgMove 20s ease-in-out infinite;
+    }
+
+    @keyframes bgMove {
+
+      0%,
+      100% {
+        transform: translate(0, 0) rotate(0deg);
+      }
+
+      25% {
+        transform: translate(2%, 2%) rotate(1deg);
+      }
+
+      50% {
+        transform: translate(-1%, 3%) rotate(-1deg);
+      }
+
+      75% {
+        transform: translate(3%, -2%) rotate(2deg);
+      }
+    }
+
+    /* Floating Orbs */
+    .orb {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(60px);
+      opacity: 0.6;
+      animation: orbFloat 15s ease-in-out infinite;
+    }
+
+    .orb-1 {
+      width: 400px;
+      height: 400px;
+      background: var(--gradient-primary);
+      top: 10%;
+      left: 5%;
+      animation-delay: 0s;
+    }
+
+    .orb-2 {
+      width: 300px;
+      height: 300px;
+      background: var(--gradient-secondary);
+      top: 60%;
+      right: 10%;
+      animation-delay: -5s;
+    }
+
+    .orb-3 {
+      width: 250px;
+      height: 250px;
+      background: var(--gradient-accent);
+      bottom: 10%;
+      left: 30%;
+      animation-delay: -10s;
+    }
+
+    @keyframes orbFloat {
+
+      0%,
+      100% {
+        transform: translate(0, 0) scale(1);
+      }
+
+      33% {
+        transform: translate(30px, -50px) scale(1.1);
+      }
+
+      66% {
+        transform: translate(-20px, 30px) scale(0.9);
+      }
+    }
+
+    /* Header Styles */
+    .header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      padding: var(--space-md) var(--space-xl);
+      transition: var(--transition-normal);
+    }
+
+    .header.scrolled {
+      background: rgba(10, 10, 15, 0.8);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border-subtle);
+    }
+
+    .header-container {
+      max-width: 1400px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      font-size: 1.75rem;
+      font-weight: 700;
+      background: var(--gradient-primary);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: var(--space-sm);
+      transition: var(--transition-normal);
+    }
+
+    .logo:hover {
+      transform: scale(1.05);
+      filter: brightness(1.2);
+    }
+
+    .logo-icon {
+      font-size: 2rem;
+      filter: drop-shadow(0 0 10px rgba(99, 102, 241, 0.5));
+    }
+
+    .nav {
+      display: flex;
+      gap: var(--space-xl);
+      align-items: center;
+    }
+
+    .nav-link {
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 0.95rem;
+      position: relative;
+      padding: var(--space-sm) 0;
+      transition: var(--transition-normal);
+    }
+
+    .nav-link::before {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: var(--gradient-primary);
+      transition: var(--transition-normal);
+    }
+
+    .nav-link:hover {
+      color: var(--text-primary);
+    }
+
+    .nav-link:hover::before {
+      width: 100%;
+    }
+
+    .nav-cta {
+      padding: var(--space-sm) var(--space-lg);
+      background: var(--gradient-primary);
+      color: white;
+      border-radius: var(--radius-full);
+      font-weight: 600;
+      transition: var(--transition-normal);
+      box-shadow: 0 4px 15px rgba(99, 102, 241, 0.4);
+    }
+
+    .nav-cta:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(99, 102, 241, 0.5);
+    }
+
+    .nav-cta::before {
+      display: none;
+    }
+
+    .mobile-menu-toggle {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      padding: var(--space-sm);
+    }
+
+    .mobile-menu-toggle span {
+      width: 28px;
+      height: 3px;
+      background: var(--text-primary);
+      border-radius: 2px;
+      transition: var(--transition-normal);
+    }
+
+    /* Hero Section */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      padding: var(--space-4xl) var(--space-xl);
+    }
+
+    .hero-content {
+      max-width: 900px;
+      text-align: center;
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-sm);
+      padding: var(--space-sm) var(--space-lg);
+      background: var(--bg-glass);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-full);
+      font-size: 0.875rem;
+      color: var(--text-secondary);
+      margin-bottom: var(--space-xl);
+      backdrop-filter: blur(10px);
+      animation: fadeInDown 0.8s ease forwards;
+    }
+
+    .hero-badge-dot {
+      width: 8px;
+      height: 8px;
+      background: var(--color-success);
+      border-radius: 50%;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+
+      0%,
+      100% {
+        opacity: 1;
+        transform: scale(1);
+      }
+
+      50% {
+        opacity: 0.5;
+        transform: scale(1.2);
+      }
+    }
+
+    .hero-title {
+      font-size: clamp(3rem, 8vw, 5rem);
+      font-weight: 800;
+      line-height: 1.1;
+      margin-bottom: var(--space-lg);
+      animation: fadeInUp 0.8s ease 0.2s forwards;
+      opacity: 0;
+    }
+
+    .hero-title-gradient {
+      background: var(--gradient-hero);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      background-size: 200% auto;
+      animation: gradientText 5s linear infinite;
+    }
+
+    @keyframes gradientText {
+      0% {
+        background-position: 0% center;
+      }
+
+      50% {
+        background-position: 100% center;
+      }
+
+      100% {
+        background-position: 0% center;
+      }
+    }
+
+    .hero-subtitle {
+      font-size: clamp(1.125rem, 2.5vw, 1.375rem);
+      color: var(--text-secondary);
+      margin-bottom: var(--space-2xl);
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+      animation: fadeInUp 0.8s ease 0.4s forwards;
+      opacity: 0;
+    }
+
+    .hero-buttons {
+      display: flex;
+      gap: var(--space-md);
+      justify-content: center;
+      flex-wrap: wrap;
+      animation: fadeInUp 0.8s ease 0.6s forwards;
+      opacity: 0;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-sm);
+      padding: var(--space-md) var(--space-xl);
+      border-radius: var(--radius-full);
+      font-weight: 600;
+      font-size: 1rem;
+      text-decoration: none;
+      transition: var(--transition-normal);
+      cursor: pointer;
+      border: none;
+    }
+
+    .btn-primary {
+      background: var(--gradient-primary);
+      color: white;
+      box-shadow: 0 4px 20px rgba(99, 102, 241, 0.4);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-3px) scale(1.02);
+      box-shadow: 0 8px 30px rgba(99, 102, 241, 0.5);
+    }
+
+    .btn-secondary {
+      background: var(--bg-glass);
+      color: var(--text-primary);
+      border: 1px solid var(--border-subtle);
+      backdrop-filter: blur(10px);
+    }
+
+    .btn-secondary:hover {
+      background: var(--bg-card-hover);
+      border-color: var(--color-primary);
+      transform: translateY(-3px);
+    }
+
+    .btn-icon {
+      font-size: 1.25rem;
+    }
+
+    /* Stats Section */
+    .stats {
+      padding: var(--space-3xl) var(--space-xl);
+      position: relative;
+    }
+
+    .stats-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: var(--space-xl);
+    }
+
+    .stat-card {
+      text-align: center;
+      padding: var(--space-xl);
+      background: var(--bg-glass);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-xl);
+      backdrop-filter: blur(10px);
+      transition: var(--transition-normal);
+    }
+
+    .stat-card:hover {
+      transform: translateY(-5px);
+      border-color: var(--color-primary);
+      box-shadow: var(--shadow-glow);
+    }
+
+    .stat-number {
+      font-size: 2.5rem;
+      font-weight: 800;
+      background: var(--gradient-primary);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: var(--space-sm);
+    }
+
+    .stat-label {
+      color: var(--text-secondary);
+      font-size: 0.95rem;
+    }
+
+    /* Features Section */
+    .features {
+      padding: var(--space-4xl) var(--space-xl);
+      position: relative;
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: var(--space-3xl);
+    }
+
+    .section-badge {
+      display: inline-block;
+      padding: var(--space-sm) var(--space-lg);
+      background: rgba(99, 102, 241, 0.1);
+      border: 1px solid rgba(99, 102, 241, 0.3);
+      border-radius: var(--radius-full);
+      color: var(--color-primary-light);
+      font-size: 0.875rem;
+      font-weight: 600;
+      margin-bottom: var(--space-md);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .section-title {
+      font-size: clamp(2rem, 5vw, 3rem);
+      font-weight: 700;
+      margin-bottom: var(--space-md);
+    }
+
+    .section-subtitle {
+      color: var(--text-secondary);
+      font-size: 1.125rem;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .features-grid {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: var(--space-xl);
+    }
+
+    .feature-card {
+      background: var(--bg-card);
+      padding: var(--space-xl);
+      border-radius: var(--radius-xl);
+      border: 1px solid var(--border-subtle);
+      transition: var(--transition-normal);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .feature-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: var(--gradient-primary);
+      transform: scaleX(0);
+      transition: var(--transition-normal);
+    }
+
+    .feature-card:hover {
+      background: var(--bg-card-hover);
+      transform: translateY(-8px);
+      border-color: rgba(99, 102, 241, 0.3);
+      box-shadow: var(--shadow-card);
+    }
+
+    .feature-card:hover::before {
+      transform: scaleX(1);
+    }
+
+    .feature-icon {
+      width: 60px;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2rem;
+      background: rgba(99, 102, 241, 0.1);
+      border-radius: var(--radius-lg);
+      margin-bottom: var(--space-lg);
+      transition: var(--transition-normal);
+    }
+
+    .feature-card:hover .feature-icon {
+      transform: scale(1.1) rotate(5deg);
+      background: rgba(99, 102, 241, 0.2);
+    }
+
+    .feature-title {
+      font-size: 1.25rem;
+      font-weight: 600;
+      margin-bottom: var(--space-sm);
+    }
+
+    .feature-description {
+      color: var(--text-secondary);
+      line-height: 1.7;
+    }
+
+    /* About Section */
+    .about {
+      padding: var(--space-4xl) var(--space-xl);
+      position: relative;
+    }
+
+    .about-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-3xl);
+      align-items: center;
+    }
+
+    .about-visual {
+      position: relative;
+    }
+
+    .about-card-stack {
+      position: relative;
+      height: 400px;
+    }
+
+    .about-float-card {
+      position: absolute;
+      background: var(--bg-glass);
+      backdrop-filter: blur(20px);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-xl);
+      padding: var(--space-xl);
+      box-shadow: var(--shadow-card);
+      transition: var(--transition-normal);
+    }
+
+    .about-float-card:nth-child(1) {
+      top: 0;
+      left: 0;
+      width: 280px;
+      animation: float1 6s ease-in-out infinite;
+    }
+
+    .about-float-card:nth-child(2) {
+      top: 100px;
+      right: 0;
+      width: 240px;
+      animation: float2 6s ease-in-out infinite;
+      animation-delay: -2s;
+    }
+
+    .about-float-card:nth-child(3) {
+      bottom: 0;
+      left: 50px;
+      width: 260px;
+      animation: float3 6s ease-in-out infinite;
+      animation-delay: -4s;
+    }
+
+    @keyframes float1 {
+
+      0%,
+      100% {
+        transform: translateY(0) rotate(0deg);
+      }
+
+      50% {
+        transform: translateY(-15px) rotate(2deg);
+      }
+    }
+
+    @keyframes float2 {
+
+      0%,
+      100% {
+        transform: translateY(0) rotate(0deg);
+      }
+
+      50% {
+        transform: translateY(-20px) rotate(-3deg);
+      }
+    }
+
+    @keyframes float3 {
+
+      0%,
+      100% {
+        transform: translateY(0) rotate(0deg);
+      }
+
+      50% {
+        transform: translateY(-10px) rotate(1deg);
+      }
+    }
+
+    .about-card-icon {
+      font-size: 2.5rem;
+      margin-bottom: var(--space-md);
+    }
+
+    .about-card-title {
+      font-size: 1.125rem;
+      font-weight: 600;
+      margin-bottom: var(--space-sm);
+    }
+
+    .about-card-text {
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+    }
+
+    .about-content h2 {
+      font-size: clamp(2rem, 4vw, 2.75rem);
+      font-weight: 700;
+      margin-bottom: var(--space-lg);
+    }
+
+    .about-content p {
+      color: var(--text-secondary);
+      font-size: 1.1rem;
+      line-height: 1.8;
+      margin-bottom: var(--space-lg);
+    }
+
+    .about-features {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-md);
+    }
+
+    .about-feature-item {
+      display: flex;
+      align-items: center;
+      gap: var(--space-md);
+      color: var(--text-secondary);
+    }
+
+    .about-feature-icon {
+      width: 24px;
+      height: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(16, 185, 129, 0.2);
+      color: var(--color-success);
+      border-radius: 50%;
+      font-size: 0.75rem;
+    }
+
+    /* Categories Section */
+    .categories {
+      padding: var(--space-4xl) var(--space-xl);
+      position: relative;
+    }
+
+    .categories-grid {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: var(--space-xl);
+    }
+
+    .category-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-xl);
+      padding: var(--space-xl);
+      transition: var(--transition-normal);
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .category-card::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: var(--gradient-primary);
+      opacity: 0;
+      transition: var(--transition-normal);
+    }
+
+    .category-card:hover {
+      transform: translateY(-8px) scale(1.02);
+      border-color: rgba(99, 102, 241, 0.5);
+      box-shadow: var(--shadow-glow);
+    }
+
+    .category-card:hover::after {
+      opacity: 0.05;
+    }
+
+    .category-content {
+      position: relative;
+      z-index: 1;
+    }
+
+    .category-icon {
+      font-size: 2.5rem;
+      margin-bottom: var(--space-md);
+      display: block;
+    }
+
+    .category-name {
+      font-size: 1.375rem;
+      font-weight: 600;
+      margin-bottom: var(--space-sm);
+    }
+
+    .category-description {
+      color: var(--text-secondary);
+      margin-bottom: var(--space-lg);
+      line-height: 1.6;
+    }
+
+    .category-link {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-sm);
+      color: var(--color-primary-light);
+      text-decoration: none;
+      font-weight: 500;
+      transition: var(--transition-normal);
+    }
+
+    .category-link:hover {
+      gap: var(--space-md);
+    }
+
+    /* CTA Section */
+    .cta-section {
+      padding: var(--space-4xl) var(--space-xl);
+      position: relative;
+    }
+
+    .cta-container {
+      max-width: 900px;
+      margin: 0 auto;
+      background: var(--gradient-primary);
+      border-radius: var(--radius-xl);
+      padding: var(--space-3xl);
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .cta-container::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 60%);
+      animation: ctaPulse 8s ease-in-out infinite;
+    }
+
+    @keyframes ctaPulse {
+
+      0%,
+      100% {
+        transform: scale(1);
+        opacity: 0.3;
+      }
+
+      50% {
+        transform: scale(1.2);
+        opacity: 0.6;
+      }
+    }
+
+    .cta-content {
+      position: relative;
+      z-index: 1;
+    }
+
+    .cta-title {
+      font-size: clamp(1.75rem, 4vw, 2.5rem);
+      font-weight: 700;
+      color: white;
+      margin-bottom: var(--space-md);
+    }
+
+    .cta-description {
+      font-size: 1.125rem;
+      color: rgba(255, 255, 255, 0.9);
+      margin-bottom: var(--space-xl);
+      max-width: 500px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .btn-white {
+      background: white;
+      color: var(--color-primary);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    }
+
+    .btn-white:hover {
+      transform: translateY(-3px) scale(1.02);
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+    }
+
+    /* Footer */
+    .footer {
+      background: rgba(0, 0, 0, 0.3);
+      border-top: 1px solid var(--border-subtle);
+      padding: var(--space-3xl) var(--space-xl) var(--space-xl);
+    }
+
+    .footer-container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 2fr repeat(3, 1fr);
+      gap: var(--space-3xl);
+      margin-bottom: var(--space-3xl);
+    }
+
+    .footer-brand p {
+      color: var(--text-secondary);
+      margin-top: var(--space-md);
+      max-width: 300px;
+      line-height: 1.7;
+    }
+
+    .footer-section h4 {
+      font-size: 1rem;
+      font-weight: 600;
+      margin-bottom: var(--space-lg);
+      color: var(--text-primary);
+    }
+
+    .footer-links {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-sm);
+    }
+
+    .footer-links a {
+      color: var(--text-secondary);
+      text-decoration: none;
+      transition: var(--transition-fast);
+      font-size: 0.95rem;
+    }
+
+    .footer-links a:hover {
+      color: var(--color-primary-light);
+    }
+
+    .social-links {
+      display: flex;
+      gap: var(--space-md);
+      margin-top: var(--space-lg);
+    }
+
+    .social-link {
+      width: 44px;
+      height: 44px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--bg-glass);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-size: 1.25rem;
+      transition: var(--transition-normal);
+    }
+
+    .social-link:hover {
+      background: var(--gradient-primary);
+      border-color: transparent;
+      color: white;
+      transform: translateY(-3px);
+    }
+
+    .footer-bottom {
+      padding-top: var(--space-xl);
+      border-top: 1px solid var(--border-subtle);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: var(--text-muted);
+      font-size: 0.9rem;
+    }
+
+    .footer-bottom-links {
+      display: flex;
+      gap: var(--space-lg);
+    }
+
+    .footer-bottom-links a {
+      color: var(--text-muted);
+      text-decoration: none;
+      transition: var(--transition-fast);
+    }
+
+    .footer-bottom-links a:hover {
+      color: var(--text-primary);
+    }
+
+    /* Animations */
+    @keyframes fadeInDown {
+      from {
+        opacity: 0;
+        transform: translateY(-20px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Scroll animations */
+    .animate-on-scroll {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: var(--transition-slow);
+    }
+
+    .animate-on-scroll.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Responsive Design */
+    @media (max-width: 1024px) {
+      .about-container {
+        grid-template-columns: 1fr;
+      }
+
+      .about-visual {
+        order: -1;
+      }
+
+      .about-card-stack {
+        height: 300px;
+      }
+
+      .footer-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .stats-container {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 768px) {
+      .nav {
+        display: none;
+      }
+
+      .mobile-menu-toggle {
+        display: flex;
+      }
+
+      .hero {
+        padding: var(--space-3xl) var(--space-md);
+      }
+
+      .hero-buttons {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .features-grid,
+      .categories-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .footer-grid {
+        grid-template-columns: 1fr;
+        text-align: center;
+      }
+
+      .footer-brand p {
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      .social-links {
+        justify-content: center;
+      }
+
+      .footer-bottom {
+        flex-direction: column;
+        gap: var(--space-md);
+        text-align: center;
+      }
+
+      .stats-container {
+        grid-template-columns: repeat(2, 1fr);
+        gap: var(--space-md);
+      }
+
+      .stat-card {
+        padding: var(--space-lg);
+      }
+
+      .stat-number {
+        font-size: 2rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .about-card-stack {
+        height: auto;
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-md);
+      }
+
+      .about-float-card {
+        position: relative;
+        width: 100% !important;
+        top: auto !important;
+        left: auto !important;
+        right: auto !important;
+        bottom: auto !important;
+        animation: none !important;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="animated-bg">
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+  </div>
+
+  <div id="root"></div>
+
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+  <script type="text/babel">
+    const { useState, useEffect, useRef } = React;
+
+    // Intersection Observer Hook
+    const useIntersectionObserver = (options = {}) => {
+      const [isVisible, setIsVisible] = useState(false);
+      const ref = useRef(null);
+
+      useEffect(() => {
+        const observer = new IntersectionObserver(([entry]) => {
+          if (entry.isIntersecting) {
+            setIsVisible(true);
+          }
+        }, { threshold: 0.1, ...options });
+
+        if (ref.current) {
+          observer.observe(ref.current);
+        }
+
+        return () => {
+          if (ref.current) {
+            observer.unobserve(ref.current);
+          }
+        };
+      }, []);
+
+      return [ref, isVisible];
+    };
+
+    // Header Component
+    const Header = () => {
+      const [scrolled, setScrolled] = useState(false);
+
+      useEffect(() => {
+        const handleScroll = () => {
+          setScrolled(window.scrollY > 50);
+        };
+
+        window.addEventListener('scroll', handleScroll);
+        return () => window.removeEventListener('scroll', handleScroll);
+      }, []);
+
+      return (
+        <header className={`header ${scrolled ? 'scrolled' : ''}`}>
+          <div className="header-container">
+            <a href="index.html" className="logo">
+              <span className="logo-icon">📚</span>
+              <span>RGC Code</span>
+            </a>
+            <nav className="nav">
+              <a href="index.html" className="nav-link">Inicio</a>
+              <a href="#catalogo" className="nav-link">Catálogo</a>
+              <a href="#nosotros" className="nav-link">Nosotros</a>
+              <a href="#categorias" className="nav-link">Categorías</a>
+              <a href="#contacto" className="nav-link nav-cta">Iniciar Sesión</a>
+            </nav>
+            <div className="mobile-menu-toggle">
+              <span></span>
+              <span></span>
+              <span></span>
+            </div>
+          </div>
+        </header>
+      );
+    };
+
+    // Hero Component
+    const Hero = () => {
+      return (
+        <section className="hero">
+          <div className="hero-content">
+            <div className="hero-badge">
+              <span className="hero-badge-dot"></span>
+              Plataforma de conocimiento digital
+            </div>
+            <h1 className="hero-title">
+              <span className="hero-title-gradient">Bienvenidos a</span>
+              <br />
+              <span className="hero-title-gradient">RGC Code</span>
+            </h1>
+            <p className="hero-subtitle">
+              Descubre un mundo de conocimiento y aprendizaje en nuestra biblioteca digital.
+              Tu espacio para crecer, aprender y explorar sin límites.
+            </p>
+            <div className="hero-buttons">
+              <a href="#catalogo" className="btn btn-primary">
+                <span className="btn-icon">🚀</span>
+                Explorar Catálogo
+              </a>
+              <a href="#nosotros" className="btn btn-secondary">
+                <span className="btn-icon">📖</span>
+                Conocer Más
+              </a>
+            </div>
+          </div>
+        </section>
+      );
+    };
+
+    // Stats Component
+    const Stats = () => {
+      const stats = [
+        { number: '50K+', label: 'Libros Disponibles' },
+        { number: '10K+', label: 'Usuarios Activos' },
+        { number: '500+', label: 'Autores' },
+        { number: '24/7', label: 'Acceso Digital' }
+      ];
+
+      const [ref, isVisible] = useIntersectionObserver();
+
+      return (
+        <section className="stats" ref={ref}>
+          <div className="stats-container">
+            {stats.map((stat, index) => (
+              <div
+                key={index}
+                className={`stat-card animate-on-scroll ${isVisible ? 'visible' : ''}`}
+                style={{ transitionDelay: `${index * 0.1}s` }}
+              >
+                <div className="stat-number">{stat.number}</div>
+                <div className="stat-label">{stat.label}</div>
+              </div>
+            ))}
+          </div>
+        </section>
+      );
+    };
+
+    // Features Component
+    const Features = () => {
+      const features = [
+        {
+          icon: '📖',
+          title: 'Amplio Catálogo',
+          description: 'Miles de títulos disponibles en diversas categorías para satisfacer tu curiosidad.'
+        },
+        {
+          icon: '👥',
+          title: 'Atención Personalizada',
+          description: 'Nuestro equipo está aquí para ayudarte a encontrar exactamente lo que buscas.'
+        },
+        {
+          icon: '💻',
+          title: 'Recursos Digitales',
+          description: 'Acceso ilimitado a contenido digital y herramientas de aprendizaje modernas.'
+        },
+        {
+          icon: '🎯',
+          title: 'Experiencia Premium',
+          description: 'Instalaciones cómodas y plataforma diseñada para tu mejor experiencia.'
+        }
+      ];
+
+      return (
+        <section className="features" id="catalogo">
+          <div className="section-header">
+            <span className="section-badge">Características</span>
+            <h2 className="section-title">¿Por qué elegir RGC Code?</h2>
+            <p className="section-subtitle">
+              Descubre las ventajas que hacen de nuestra plataforma la mejor opción para tu aprendizaje.
+            </p>
+          </div>
+          <div className="features-grid">
+            {features.map((feature, index) => (
+              <FeatureCard key={index} {...feature} delay={index * 0.1} />
+            ))}
+          </div>
+        </section>
+      );
+    };
+
+    // Feature Card Component
+    const FeatureCard = ({ icon, title, description, delay }) => {
+      const [ref, isVisible] = useIntersectionObserver();
+
+      return (
+        <div
+          ref={ref}
+          className={`feature-card animate-on-scroll ${isVisible ? 'visible' : ''}`}
+          style={{ transitionDelay: `${delay}s` }}
+        >
+          <div className="feature-icon">{icon}</div>
+          <h3 className="feature-title">{title}</h3>
+          <p className="feature-description">{description}</p>
+        </div>
+      );
+    };
+
+    // About Component
+    const About = () => {
+      const [ref, isVisible] = useIntersectionObserver();
+
+      return (
+        <section className="about" id="nosotros">
+          <div className="about-container">
+            <div className="about-visual">
+              <div className="about-card-stack">
+                <div className="about-float-card">
+                  <div className="about-card-icon">🎓</div>
+                  <div className="about-card-title">Educación de Calidad</div>
+                  <div className="about-card-text">Recursos actualizados constantemente</div>
+                </div>
+                <div className="about-float-card">
+                  <div className="about-card-icon">🌟</div>
+                  <div className="about-card-title">Experiencia Premium</div>
+                  <div className="about-card-text">Diseño intuitivo y moderno</div>
+                </div>
+                <div className="about-float-card">
+                  <div className="about-card-icon">🔒</div>
+                  <div className="about-card-title">Acceso Seguro</div>
+                  <div className="about-card-text">Tu información siempre protegida</div>
+                </div>
+              </div>
+            </div>
+            <div
+              ref={ref}
+              className={`about-content animate-on-scroll ${isVisible ? 'visible' : ''}`}
+            >
+              <h2>Sobre RGC Code</h2>
+              <p>
+                RGC Code es más que una biblioteca. Somos un espacio dedicado a fomentar
+                el aprendizaje, la creatividad y el desarrollo personal. Con años de experiencia,
+                nos hemos convertido en un referente para estudiantes, profesionales y amantes
+                de la lectura.
+              </p>
+              <div className="about-features">
+                <div className="about-feature-item">
+                  <span className="about-feature-icon">✓</span>
+                  <span>Acceso a más de 50,000 títulos digitales</span>
+                </div>
+                <div className="about-feature-item">
+                  <span className="about-feature-icon">✓</span>
+                  <span>Comunidad activa de lectores</span>
+                </div>
+                <div className="about-feature-item">
+                  <span className="about-feature-icon">✓</span>
+                  <span>Actualizaciones semanales de contenido</span>
+                </div>
+                <div className="about-feature-item">
+                  <span className="about-feature-icon">✓</span>
+                  <span>Soporte técnico 24/7</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      );
+    };
+
+    // Categories Component
+    const Categories = () => {
+      const categories = [
+        {
+          icon: '💻',
+          name: 'Programación',
+          description: 'Libros de desarrollo de software, tecnología y ciencias de la computación.'
+        },
+        {
+          icon: '🔬',
+          name: 'Ciencias',
+          description: 'Matemáticas, física, química, biología y más ciencias exactas.'
+        },
+        {
+          icon: '📚',
+          name: 'Literatura',
+          description: 'Clásicos, contemporáneos, poesía y narrativa de todo el mundo.'
+        },
+        {
+          icon: '📈',
+          name: 'Negocios',
+          description: 'Administración, finanzas, emprendimiento y liderazgo empresarial.'
+        },
+        {
+          icon: '🎨',
+          name: 'Arte y Diseño',
+          description: 'Creatividad, expresión visual, fotografía y diseño gráfico.'
+        },
+        {
+          icon: '🏛️',
+          name: 'Historia',
+          description: 'Explora el pasado, aprende del presente y prepárate para el futuro.'
+        }
+      ];
+
+      return (
+        <section className="categories" id="categorias">
+          <div className="section-header">
+            <span className="section-badge">Explora</span>
+            <h2 className="section-title">Nuestras Categorías</h2>
+            <p className="section-subtitle">
+              Encuentra el contenido perfecto para ti entre nuestras categorías especializadas.
+            </p>
+          </div>
+          <div className="categories-grid">
+            {categories.map((category, index) => (
+              <CategoryCard key={index} {...category} delay={index * 0.1} />
+            ))}
+          </div>
+        </section>
+      );
+    };
+
+    // Category Card Component
+    const CategoryCard = ({ icon, name, description, delay }) => {
+      const [ref, isVisible] = useIntersectionObserver();
+
+      return (
+        <div
+          ref={ref}
+          className={`category-card animate-on-scroll ${isVisible ? 'visible' : ''}`}
+          style={{ transitionDelay: `${delay}s` }}
+        >
+          <div className="category-content">
+            <span className="category-icon">{icon}</span>
+            <h3 className="category-name">{name}</h3>
+            <p className="category-description">{description}</p>
+            <a href="#" className="category-link">
+              Explorar
+              <span>→</span>
+            </a>
+          </div>
+        </div>
+      );
+    };
+
+    // CTA Section Component
+    const CTASection = () => {
+      const [ref, isVisible] = useIntersectionObserver();
+
+      return (
+        <section className="cta-section">
+          <div
+            ref={ref}
+            className={`cta-container animate-on-scroll ${isVisible ? 'visible' : ''}`}
+          >
+            <div className="cta-content">
+              <h2 className="cta-title">Comienza Tu Viaje de Aprendizaje</h2>
+              <p className="cta-description">
+                Únete a nuestra comunidad y descubre todo lo que RGC Code tiene para ofrecerte.
+                El conocimiento te espera.
+              </p>
+              <a href="#" className="btn btn-white">
+                <span className="btn-icon">✨</span>
+                Registrarse Ahora
+              </a>
+            </div>
+          </div>
+        </section>
+      );
+    };
+
+    // Footer Component
+    const Footer = () => {
+      return (
+        <footer className="footer" id="contacto">
+          <div className="footer-container">
+            <div className="footer-grid">
+              <div className="footer-brand">
+                <a href="index.html" className="logo">
+                  <span className="logo-icon">📚</span>
+                  <span>RGC Code</span>
+                </a>
+                <p>Tu espacio para el conocimiento y el aprendizaje continuo. Descubre, aprende y crece con nosotros.</p>
+                <div className="social-links">
+                  <a href="#" className="social-link" title="Facebook">f</a>
+                  <a href="#" className="social-link" title="Twitter">𝕏</a>
+                  <a href="#" className="social-link" title="Instagram">📷</a>
+                  <a href="#" className="social-link" title="LinkedIn">in</a>
+                </div>
+              </div>
+              <div className="footer-section">
+                <h4>Navegación</h4>
+                <div className="footer-links">
+                  <a href="#">Inicio</a>
+                  <a href="#">Catálogo</a>
+                  <a href="#">Categorías</a>
+                  <a href="#">Nosotros</a>
+                </div>
+              </div>
+              <div className="footer-section">
+                <h4>Recursos</h4>
+                <div className="footer-links">
+                  <a href="#">Centro de Ayuda</a>
+                  <a href="#">Blog</a>
+                  <a href="#">Comunidad</a>
+                  <a href="#">Tutoriales</a>
+                </div>
+              </div>
+              <div className="footer-section">
+                <h4>Contacto</h4>
+                <div className="footer-links">
+                  <a href="mailto:info@rgccode.com">info@rgccode.com</a>
+                  <a href="tel:+527222026833">+52 722 202 6833</a>
+                  <a href="#">Ciudad, País</a>
+                </div>
+              </div>
+            </div>
+            <div className="footer-bottom">
+              <p>© 2025 RGC Code. Todos los derechos reservados.</p>
+              <div className="footer-bottom-links">
+                <a href="#">Política de Privacidad</a>
+                <a href="#">Términos de Uso</a>
+              </div>
+            </div>
+          </div>
+        </footer>
+      );
+    };
+
+    // Main App Component
+    const App = () => {
+      return (
+        <>
+          <Header />
+          <Hero />
+          <Stats />
+          <Features />
+          <About />
+          <Categories />
+          <CTASection />
+          <Footer />
+        </>
+      );
+    };
+
+    // Render the app
+    const root = ReactDOM.createRoot(document.getElementById('root'));
+    root.render(<App />);
+  </script>
+
+</body>
+
+</html>
