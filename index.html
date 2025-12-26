@@ -293,9 +293,11 @@
     .mobile-menu-toggle {
       display: none;
       flex-direction: column;
-      gap: 5px;
+      gap: 6px;
       cursor: pointer;
       padding: var(--space-sm);
+      z-index: 1001;
+      position: relative;
     }
 
     .mobile-menu-toggle span {
@@ -304,6 +306,66 @@
       background: var(--text-primary);
       border-radius: 2px;
       transition: var(--transition-normal);
+      transform-origin: center;
+    }
+
+    .mobile-menu-toggle.active span:nth-child(1) {
+      transform: rotate(45deg) translate(6px, 6px);
+    }
+
+    .mobile-menu-toggle.active span:nth-child(2) {
+      opacity: 0;
+      transform: scaleX(0);
+    }
+
+    .mobile-menu-toggle.active span:nth-child(3) {
+      transform: rotate(-45deg) translate(6px, -6px);
+    }
+
+    /* Mobile Menu Overlay */
+    .mobile-menu {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100vh;
+      background: rgba(10, 10, 15, 0.98);
+      backdrop-filter: blur(20px);
+      z-index: 999;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: var(--space-xl);
+      opacity: 0;
+      visibility: hidden;
+      transition: var(--transition-normal);
+    }
+
+    .mobile-menu.active {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .mobile-menu .nav-link {
+      font-size: 1.5rem;
+      padding: var(--space-md);
+      color: var(--text-secondary);
+      text-decoration: none;
+      transition: var(--transition-normal);
+    }
+
+    .mobile-menu .nav-link:hover {
+      color: var(--color-primary-light);
+      transform: scale(1.1);
+    }
+
+    .mobile-menu .nav-cta {
+      margin-top: var(--space-lg);
+      padding: var(--space-md) var(--space-2xl);
+      background: var(--gradient-primary);
+      border-radius: var(--radius-full);
+      font-size: 1.25rem;
     }
 
     /* Hero Section */
@@ -635,11 +697,38 @@
       position: absolute;
       background: var(--bg-glass);
       backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
       border: 1px solid var(--border-subtle);
       border-radius: var(--radius-xl);
       padding: var(--space-xl);
       box-shadow: var(--shadow-card);
-      transition: var(--transition-normal);
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      cursor: pointer;
+    }
+
+    .about-float-card:hover {
+      border-color: rgba(99, 102, 241, 0.4);
+      box-shadow: 0 8px 32px rgba(99, 102, 241, 0.2);
+    }
+
+    .about-float-card.active {
+      z-index: 100 !important;
+      transform: scale(1.15) translateY(-10px) !important;
+      border-color: var(--color-primary) !important;
+      box-shadow: 0 20px 60px rgba(99, 102, 241, 0.4), 0 0 30px rgba(99, 102, 241, 0.2) !important;
+      animation: none !important;
+      background: rgba(99, 102, 241, 0.15) !important;
+    }
+
+    .about-float-card.active .about-card-icon {
+      transform: scale(1.2);
+      filter: drop-shadow(0 0 10px rgba(99, 102, 241, 0.5));
+    }
+
+    .about-float-card.inactive {
+      opacity: 0.4;
+      filter: blur(2px);
+      transform: scale(0.95);
     }
 
     .about-float-card:nth-child(1) {
@@ -1085,6 +1174,10 @@
         display: flex;
       }
 
+      .mobile-menu {
+        display: flex;
+      }
+
       .hero {
         padding: var(--space-3xl) var(--space-md);
       }
@@ -1199,6 +1292,7 @@
     // Header Component
     const Header = () => {
       const [scrolled, setScrolled] = useState(false);
+      const [menuOpen, setMenuOpen] = useState(false);
 
       useEffect(() => {
         const handleScroll = () => {
@@ -1209,27 +1303,47 @@
         return () => window.removeEventListener('scroll', handleScroll);
       }, []);
 
+      const toggleMenu = () => {
+        setMenuOpen(!menuOpen);
+        document.body.style.overflow = !menuOpen ? 'hidden' : '';
+      };
+
+      const closeMenu = () => {
+        setMenuOpen(false);
+        document.body.style.overflow = '';
+      };
+
       return (
-        <header className={`header ${scrolled ? 'scrolled' : ''}`}>
-          <div className="header-container">
-            <a href="index.html" className="logo">
-              <span className="logo-icon">📚</span>
-              <span>RGC Code</span>
-            </a>
-            <nav className="nav">
-              <a href="index.html" className="nav-link">Inicio</a>
-              <a href="#catalogo" className="nav-link">Catálogo</a>
-              <a href="#nosotros" className="nav-link">Nosotros</a>
-              <a href="#categorias" className="nav-link">Categorías</a>
-              <a href="#contacto" className="nav-link nav-cta">Iniciar Sesión</a>
-            </nav>
-            <div className="mobile-menu-toggle">
-              <span></span>
-              <span></span>
-              <span></span>
+        <>
+          <header className={`header ${scrolled ? 'scrolled' : ''}`}>
+            <div className="header-container">
+              <a href="index.html" className="logo">
+                <span className="logo-icon">📚</span>
+                <span>RGC Code</span>
+              </a>
+              <nav className="nav">
+                <a href="index.html" className="nav-link">Inicio</a>
+                <a href="#catalogo" className="nav-link">Catálogo</a>
+                <a href="#nosotros" className="nav-link">Nosotros</a>
+                <a href="#categorias" className="nav-link">Categorías</a>
+                <a href="#contacto" className="nav-link nav-cta">Iniciar Sesión</a>
+              </nav>
+              <div className={`mobile-menu-toggle ${menuOpen ? 'active' : ''}`} onClick={toggleMenu}>
+                <span></span>
+                <span></span>
+                <span></span>
+              </div>
             </div>
+          </header>
+
+          <div className={`mobile-menu ${menuOpen ? 'active' : ''}`}>
+            <a href="index.html" className="nav-link" onClick={closeMenu}>Inicio</a>
+            <a href="#catalogo" className="nav-link" onClick={closeMenu}>Catálogo</a>
+            <a href="#nosotros" className="nav-link" onClick={closeMenu}>Nosotros</a>
+            <a href="#categorias" className="nav-link" onClick={closeMenu}>Categorías</a>
+            <a href="#contacto" className="nav-link nav-cta" onClick={closeMenu}>Iniciar Sesión</a>
           </div>
-        </header>
+        </>
       );
     };
 
@@ -1238,7 +1352,7 @@
       return (
         <section className="hero">
           <div className="hero-content">
-           
+
             <h1 className="hero-title">
               <span className="hero-title-gradient">Bienvenidos a</span>
               <br />
@@ -1355,27 +1469,40 @@
     // About Component
     const About = () => {
       const [ref, isVisible] = useIntersectionObserver();
+      const [activeCard, setActiveCard] = useState(null);
+
+      const cards = [
+        { icon: '🎓', title: 'Educación de Calidad', text: 'Recursos actualizados constantemente para tu aprendizaje continuo.' },
+        { icon: '🌟', title: 'Experiencia Premium', text: 'Diseño intuitivo y moderno que facilita tu navegación.' },
+        { icon: '🔒', title: 'Acceso Seguro', text: 'Tu información siempre protegida con la mejor tecnología.' }
+      ];
+
+      const handleCardClick = (index) => {
+        setActiveCard(activeCard === index ? null : index);
+      };
+
+      const getCardClass = (index) => {
+        if (activeCard === null) return 'about-float-card';
+        if (activeCard === index) return 'about-float-card active';
+        return 'about-float-card inactive';
+      };
 
       return (
         <section className="about" id="nosotros">
           <div className="about-container">
             <div className="about-visual">
               <div className="about-card-stack">
-                <div className="about-float-card">
-                  <div className="about-card-icon">🎓</div>
-                  <div className="about-card-title">Educación de Calidad</div>
-                  <div className="about-card-text">Recursos actualizados constantemente</div>
-                </div>
-                <div className="about-float-card">
-                  <div className="about-card-icon">🌟</div>
-                  <div className="about-card-title">Experiencia Premium</div>
-                  <div className="about-card-text">Diseño intuitivo y moderno</div>
-                </div>
-                <div className="about-float-card">
-                  <div className="about-card-icon">🔒</div>
-                  <div className="about-card-title">Acceso Seguro</div>
-                  <div className="about-card-text">Tu información siempre protegida</div>
-                </div>
+                {cards.map((card, index) => (
+                  <div
+                    key={index}
+                    className={getCardClass(index)}
+                    onClick={() => handleCardClick(index)}
+                  >
+                    <div className="about-card-icon">{card.icon}</div>
+                    <div className="about-card-title">{card.title}</div>
+                    <div className="about-card-text">{card.text}</div>
+                  </div>
+                ))}
               </div>
             </div>
             <div
